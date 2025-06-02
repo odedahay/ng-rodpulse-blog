@@ -23,7 +23,12 @@
         </div>
         <div class="mt-4">
             <label for="content" class="w-full">Content</label>
-            <textarea class="bg-neutral-100 w-full px-4 py-2 mt-2 h-[200px]" placeholder="Post content" formControlName = "content"></textarea>
+            <div class="flex gap-4">
+                <textarea class="bg-neutral-100 w-full px-4 py-2 mt-2 h-[200px]" placeholder="Post content" formControlName = "content" (keyup)="onContentChange()"></textarea>
+                <div class="bg-neutral-100 w-full px-4 py-2 mt-2 h-[200px] blog-content">
+                    <markdown [data]="contentData()"></markdown>
+                </div>
+            </div>
             @if (content.invalid && (content.dirty || content.touched)){
                 @if(content.hasError('required')){
                     <p class="text-red-700 text-sm mt-1">Content is required</p>
