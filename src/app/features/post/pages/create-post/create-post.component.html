@@ -40,6 +40,10 @@
             }
         </div>
         <div class="mt-4">
+            <input type="file" class="hidden" (change)="onCoverImageSelected(coverImageFileInput)" #coverImageFileInput>
+            <button class="border rounded px-4 py-2" (click)="coverImageFileInput.click()">Add Cover Image</button>
+        </div>
+        <div class="mt-4">
             <button type="submit" 
             [disabled]="createPostForm.invalid"
             class="px-4 py-2 rounded bg-pink-500 text-white disabled:opacity-50 disabled:cursor-not-allowed">

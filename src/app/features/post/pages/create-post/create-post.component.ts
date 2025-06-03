@@ -50,4 +50,13 @@ export class CreatePostComponent {
   onContentChange(){
     this.contentData.set(this.createPostForm.getRawValue().content);
   }
+
+  onCoverImageSelected(input: HTMLInputElement){
+    if(!input.files || input.files.length <= 0){
+      return;
+    }
+
+    const file: File = input.files[0];
+    
+  }
 }
