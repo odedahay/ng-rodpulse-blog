@@ -1,15 +1,15 @@
 <div class="max-w-7xl mx-auto">
-    <div class="p-4 flex">
+    <div class="p-4 flex justify-between">
 
         <a [routerLink]="['/']" class="">
             <img src="/assets/images/logo.png" class="w-[200px]" alt="Rod Dahay">
         </a>
+        @if(userService.isLoggedIn){
+           <app-logged-in-functionality></app-logged-in-functionality>
+        }@else {
+            <app-logged-out-functionality></app-logged-out-functionality>
+        }
 
-        <div class="ms-auto flex items-center">
-            <a [routerLink]="['/create-post']" class="bg-pink-500 text-white px-4 py-2 rounded">
-                Create Post
-            </a>
-        </div>
 
     </div>
 </div>

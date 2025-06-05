@@ -2,6 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { BlogpostService } from '../../services/blogpost.service';
 import { MarkdownModule } from 'ngx-markdown';
+import { ImageService } from '../../../../shared/services/image.service';
+import { getDownloadURL } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-create-post',
@@ -13,6 +15,7 @@ import { MarkdownModule } from 'ngx-markdown';
 export class CreatePostComponent {
   contentData  = signal('')
   blogPostService = inject(BlogpostService);
+  imageService = inject(ImageService);
 
   createPostForm = new FormGroup({
     title: new FormControl<string>('',
@@ -26,7 +29,11 @@ export class CreatePostComponent {
         nonNullable: true,
         validators: [Validators.required, Validators.maxLength(3000)]
       }
-    )
+    ),
+    coverImageUrl: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.maxLength(3000)]
+    })
   });
 
   get title(){
@@ -44,7 +51,11 @@ export class CreatePostComponent {
 
     this.blogPostService.createBlogPost(
       this.createPostForm.getRawValue().title, 
-      this.createPostForm.getRawValue().content);
+      this.createPostForm.getRawValue().content,
+      this.createPostForm.getRawValue().coverImageUrl
+    );
+    alert('Successfully saved!')
+    this.createPostForm.reset();
   }
 
   onContentChange(){
@@ -57,6 +68,22 @@ export class CreatePostComponent {
     }
 
     const file: File = input.files[0];
+
+    this.imageService.uploadImage(file.name, file)
+      .then((snapshot)=>{
+        getDownloadURL(snapshot.ref).then((downloadUrl) => {
+          this.createPostForm.patchValue({
+            coverImageUrl:downloadUrl
+          })
+          alert('Image uploaded successfully!')
+        });
+        // this.imageService.getDownloadUrl(snapshot).then((downloadUrl) => {
+        //   this.createPostForm.patchValue({
+        //     coverImageUrl:downloadUrl
+        //   });
+        //   alert('Image uploaded successfully!')
+        // })
+      })
     
   }
 }

@@ -42,3 +42,5 @@ testem.log
 Thumbs.db
 # env files (can opt-in for committing if needed)
 .env*
+# Ignore environment files with secrets
+src/environments/environment.development.ts
