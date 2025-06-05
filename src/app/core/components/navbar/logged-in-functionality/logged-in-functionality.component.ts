@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavbarService } from '../../../services/navbar.service';
 
@@ -9,5 +9,16 @@ import { NavbarService } from '../../../services/navbar.service';
   styleUrl: './logged-in-functionality.component.css'
 })
 export class LoggedInFunctionalityComponent {
-  navbarService = inject(NavbarService);
+  constructor(
+    public navbarService: NavbarService,
+    private elementRef: ElementRef
+  ) {}
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: MouseEvent) {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside && this.navbarService.isMenuVisible()) {
+      this.navbarService.closeUserMenu();
+    }
+  }
 }

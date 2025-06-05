@@ -5,10 +5,17 @@ import { Injectable, signal } from '@angular/core';
 })
 export class NavbarService {
 
-  hideUserMenu = signal(true)
+  hideUserMenu = signal(true);
 
-  toggleNavbarMenu(){
-    this.hideUserMenu.set(!this.hideUserMenu())
+  toggleNavbarMenu() {
+    this.hideUserMenu.set(!this.hideUserMenu());
   }
-  
+
+  closeUserMenu() {
+    this.hideUserMenu.set(true);
+  }
+
+  isMenuVisible() {
+    return !this.hideUserMenu();
+  }
 }
