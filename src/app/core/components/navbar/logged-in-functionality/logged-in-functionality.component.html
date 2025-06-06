@@ -14,7 +14,7 @@
         </a>
         <ul class="min-w-[200px] absolute right-0 top-14 bg-neutral-50 border border-gray-300 rounded" [class]="navbarService.hideUserMenu() ? 'hidden' : ''">
             <li class="px-4 py-2 hover:bg-neutral-200 hover:rounded">
-                <a href="" (click)="navbarService.toggleNavbarMenu()" class="flex">
+                <a [routerLink]="['/dashboard']" (click)="navbarService.toggleNavbarMenu()" class="flex">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">
