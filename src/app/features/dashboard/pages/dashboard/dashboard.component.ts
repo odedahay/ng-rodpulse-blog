@@ -1,12 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import {DashboardStatisticsComponent} from '../../components/dashboard-statistics/dashboard-statistics.component'
+import { BlogpostService } from '../../../post/services/blogpost.service';
+import { toSignal } from '@angular/core/rxjs-interop'
+import { Timestamp } from '@angular/fire/firestore';
+import { DatePipe } from '@angular/common';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [DashboardStatisticsComponent],
+  imports: [DashboardStatisticsComponent, DatePipe, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  blogPostService = inject(BlogpostService)
+
+  blogPosts = toSignal(this.blogPostService.getBlogPosts());
+
+  totalBlogPosts = computed(() =>{
+    return this.blogPosts()?.length
+  })
+
+  converTimestampToDate(timestamp: Timestamp){
+    return timestamp.toDate();
+  }
 
 }
