@@ -23,6 +23,10 @@ export class EditPostComponent implements OnInit {
     this.blogPostService.getBlogPostBySlug(this.slug() ?? '')
     .subscribe({
       next: (blogPost)=>{
+        if(!blogPost){
+          this.router.navigateByUrl('/not-found');
+          return;
+        }
         this.editPostForm.patchValue({
           title: blogPost.title,
           content: blogPost.content,
@@ -30,8 +34,11 @@ export class EditPostComponent implements OnInit {
           slug: blogPost.slug
         });
         this.contentData.set(blogPost.content);
+      },
+      error:()=>{
+        this.router.navigateByUrl('/not-found');
       }
-    })
+    });
   }
 
   editPostForm = new FormGroup({
@@ -111,6 +118,15 @@ export class EditPostComponent implements OnInit {
     );
 
     this.router.navigateByUrl('/dashboard');
+  }
+
+  onDelete(slug: string){
+    this.blogPostService.deleteBlogPostBySlug(slug)
+      .subscribe({
+        next:()=>{
+          this.router.navigateByUrl('/dashboard')
+        }
+      })
   }
   
 }
