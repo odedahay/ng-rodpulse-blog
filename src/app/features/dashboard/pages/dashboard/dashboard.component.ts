@@ -17,6 +17,15 @@ export class DashboardComponent {
 
   blogPosts = toSignal(this.blogPostService.getBlogPosts());
 
+  sortedBlogPosts = computed(()=>{
+    const posts = this.blogPosts();
+    if (!posts) return [];
+
+    return [...posts].sort((a, b)=>{
+      return b.publishedOn.seconds - a.publishedOn.seconds;
+    })
+  })
+
   totalBlogPosts = computed(() =>{
     return this.blogPosts()?.length
   })

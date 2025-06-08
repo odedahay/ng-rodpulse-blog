@@ -6,6 +6,11 @@ import { NotFoundComponent } from './features/post/pages/not-found/not-found.com
 
 export const routes: Routes = [
     {
+        path: '',
+        component: DashboardComponent,
+        pathMatch: 'full'
+    },
+    {
         path: 'create-post',
         component: CreatePostComponent
     },

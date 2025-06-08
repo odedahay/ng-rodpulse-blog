@@ -4,6 +4,7 @@ import { BlogpostService } from '../../services/blogpost.service';
 import { MarkdownModule } from 'ngx-markdown';
 import { ImageService } from '../../../../shared/services/image.service';
 import { getDownloadURL } from '@angular/fire/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-post',
@@ -16,6 +17,7 @@ export class CreatePostComponent {
   contentData  = signal('')
   blogPostService = inject(BlogpostService);
   imageService = inject(ImageService);
+  router = inject(Router);
 
   createPostForm = new FormGroup({
     title: new FormControl<string>('',
@@ -56,6 +58,7 @@ export class CreatePostComponent {
     );
     alert('Successfully saved!')
     this.createPostForm.reset();
+    this.router.navigateByUrl('/dashboard')
   }
 
   onContentChange(){

@@ -24,8 +24,9 @@ export class EditPostComponent implements OnInit {
     .subscribe({
       next: (blogPost)=>{
         if(!blogPost){
-          this.router.navigateByUrl('/not-found');
-          return;
+           // Optional: Redirect or handle not found
+           this.router.navigateByUrl('/dashboard');
+           return;
         }
         this.editPostForm.patchValue({
           title: blogPost.title,
