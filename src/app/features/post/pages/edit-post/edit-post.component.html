@@ -4,45 +4,47 @@
 
         <div class="mt-4">
             <label for="title" class="w-full">Slug</label>
-            <input type="text" class="bg-neutral-100 w-full px-4 py-2 mt-2" 
-            autocomplete="off" formControlName = "slug" readonly>
+            <input type="text" class="bg-neutral-100 w-full px-4 py-2 mt-2" autocomplete="off" formControlName="slug"
+                readonly>
         </div>
 
         <div class="mt-4">
             <label for="title" class="w-full">Title</label>
             <input type="text" class="bg-neutral-100 w-full px-4 py-2 mt-2" placeholder="Enter a title for your post"
-                autocomplete="off" formControlName = "title">
+                autocomplete="off" formControlName="title">
 
-                @if (title.invalid && (title.dirty || title.touched)){
-                    @if(title.hasError('required')){
-                        <p class="text-red-700 text-sm mt-1">Title is required</p>
-                    }
+            @if (title.invalid && (title.dirty || title.touched)){
+            @if(title.hasError('required')){
+            <p class="text-red-700 text-sm mt-1">Title is required</p>
+            }
 
-                    @if (title.hasError('minlength')) {
-                        <p class="text-red-700 text-sm mt-1">Title must be atleast 6 characters</p>
-                    }
+            @if (title.hasError('minlength')) {
+            <p class="text-red-700 text-sm mt-1">Title must be atleast 6 characters</p>
+            }
 
-                    @if (title.hasError('maxlength')) {
-                        <p class="text-red-700 text-sm mt-1">Title must not exceed 100 characters</p>
-                    }
-                }
+            @if (title.hasError('maxlength')) {
+            <p class="text-red-700 text-sm mt-1">Title must not exceed 100 characters</p>
+            }
+            }
         </div>
         <div class="mt-4">
             <label for="content" class="w-full">Content</label>
             <div class="flex gap-4">
-                <textarea class="bg-neutral-100 w-full px-4 py-2 mt-2 h-[200px]" placeholder="Post content" formControlName = "content" (keyup)="onContentChange()"></textarea>
-                <div class="bg-neutral-100 w-full px-4 py-2 mt-2 h-[200px] blog-content overflow-y-auto whitespace-pre-wrap">
+                <textarea class="bg-neutral-100 w-full px-4 py-2 mt-2 h-[200px]" placeholder="Post content"
+                    formControlName="content" (keyup)="onContentChange()"></textarea>
+                <div
+                    class="bg-neutral-100 w-full px-4 py-2 mt-2 h-[200px] blog-content overflow-y-auto whitespace-pre-wrap">
                     <markdown [data]="contentData()"></markdown>
                 </div>
             </div>
             @if (content.invalid && (content.dirty || content.touched)){
-                @if(content.hasError('required')){
-                    <p class="text-red-700 text-sm mt-1">Content is required</p>
-                }
+            @if(content.hasError('required')){
+            <p class="text-red-700 text-sm mt-1">Content is required</p>
+            }
 
-                @if (content.hasError('maxlength')) {
-                    <p class="text-red-700 text-sm mt-1">Content must not exceed 3000 characters</p>
-                }
+            @if (content.hasError('maxlength')) {
+            <p class="text-red-700 text-sm mt-1">Content must not exceed 3000 characters</p>
+            }
             }
         </div>
         <div class="mt-4">
@@ -50,18 +52,43 @@
             <button class="border rounded px-4 py-2" (click)="coverImageFileInput.click()">Add Cover Image</button>
         </div>
         @if(editPostForm.getRawValue().coverImageUrl){
-            <div class="mt-4">
-                <img [src]="editPostForm.getRawValue().coverImageUrl" class="w-[200px]" />
-            </div>
+        <div class="mt-4">
+            <img [src]="editPostForm.getRawValue().coverImageUrl" class="w-[200px]" />
+        </div>
         }
         <div class="mt-4 flex gap-4">
-            <button type="submit" 
-            [disabled]="editPostForm.invalid"
-            class="px-4 py-2 rounded-sm bg-pink-500 text-white disabled:opacity-50 disabled:cursor-not-allowed">
+            <button type="submit" [disabled]="editPostForm.invalid"
+                class="px-4 py-2 rounded-sm bg-pink-500 text-white disabled:opacity-50 disabled:cursor-not-allowed">
                 Update
             </button>
 
-            <button (click)="onDelete(editPostForm.getRawValue().slug)" type="button" class="px-4 py-2 bg-red-500 text-white rounded-sm">Delete</button>
+            <!-- <button (click)="onDelete(editPostForm.getRawValue().slug)" type="button" class="px-4 py-2 bg-red-500 text-white rounded-sm">Delete</button> -->
+            <!-- Delete Button -->
+            <button type="button" (click)="openDeleteModal()" class="bg-red-500 text-white px-4 py-2 rounded">
+                Delete Post
+            </button>
         </div>
     </form>
+
+     <!-- Modal -->
+     @if (showDeleteModal()) {
+    <div class="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
+            <h2 class="text-lg font-semibold mb-4">Are you sure?</h2>
+            <p class="mb-6">Do you really want to delete this post?</p>
+            <div class="flex justify-end space-x-4">
+                <button (click)="confirmDelete()" class="bg-red-600 text-white px-4 py-2 rounded">
+                    Yes, Delete
+                </button>
+                <button (click)="closeDeleteModal()" class="bg-gray-300 px-4 py-2 rounded">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+
 </div>
+
+
+   

@@ -14,32 +14,32 @@ import { Router } from '@angular/router';
 })
 export class EditPostComponent implements OnInit {
 
-  contentData  = signal('')
+  contentData = signal('')
   imageService = inject(ImageService);
   blogPostService = inject(BlogpostService);
   router = inject(Router);
 
   ngOnInit(): void {
     this.blogPostService.getBlogPostBySlug(this.slug() ?? '')
-    .subscribe({
-      next: (blogPost)=>{
-        if(!blogPost){
-           // Optional: Redirect or handle not found
-           this.router.navigateByUrl('/dashboard');
-           return;
+      .subscribe({
+        next: (blogPost) => {
+          if (!blogPost) {
+            // Optional: Redirect or handle not found
+            this.router.navigateByUrl('/dashboard');
+            return;
+          }
+          this.editPostForm.patchValue({
+            title: blogPost.title,
+            content: blogPost.content,
+            coverImageUrl: blogPost.coverImageUrl,
+            slug: blogPost.slug
+          });
+          this.contentData.set(blogPost.content);
+        },
+        error: () => {
+          this.router.navigateByUrl('/not-found');
         }
-        this.editPostForm.patchValue({
-          title: blogPost.title,
-          content: blogPost.content,
-          coverImageUrl: blogPost.coverImageUrl,
-          slug: blogPost.slug
-        });
-        this.contentData.set(blogPost.content);
-      },
-      error:()=>{
-        this.router.navigateByUrl('/not-found');
-      }
-    });
+      });
   }
 
   editPostForm = new FormGroup({
@@ -67,32 +67,32 @@ export class EditPostComponent implements OnInit {
     })
   });
 
-  get title(){
+  get title() {
     return this.editPostForm.controls.title;
   }
 
-  get content(){
+  get content() {
     return this.editPostForm.controls.content;
   }
 
   slug = input<string | undefined>(undefined)
 
-  onContentChange(){
+  onContentChange() {
     this.contentData.set(this.editPostForm.getRawValue().content);
   }
 
-  onCoverImageSelected(input: HTMLInputElement){
-    if(!input.files || input.files.length <= 0){
+  onCoverImageSelected(input: HTMLInputElement) {
+    if (!input.files || input.files.length <= 0) {
       return;
     }
 
     const file: File = input.files[0];
 
     this.imageService.uploadImage(file.name, file)
-      .then((snapshot)=>{
+      .then((snapshot) => {
         getDownloadURL(snapshot.ref).then((downloadUrl) => {
           this.editPostForm.patchValue({
-            coverImageUrl:downloadUrl
+            coverImageUrl: downloadUrl
           })
           alert('Image uploaded successfully!')
         });
@@ -103,31 +103,63 @@ export class EditPostComponent implements OnInit {
         //   alert('Image uploaded successfully!')
         // })
       })
-    
+
   }
 
-  onFormSubmit(){
-    if(this.editPostForm.invalid){
+  onFormSubmit() {
+    if (this.editPostForm.invalid) {
       return;
     }
     const rawValue = this.editPostForm.getRawValue();
     this.blogPostService.updateBlogPost(
-      rawValue.slug, 
-      rawValue.title, 
-      rawValue.content, 
+      rawValue.slug,
+      rawValue.title,
+      rawValue.content,
       rawValue.coverImageUrl
     );
-
     this.router.navigateByUrl('/dashboard');
   }
 
-  onDelete(slug: string){
+  onDelete(slug: string) {
     this.blogPostService.deleteBlogPostBySlug(slug)
       .subscribe({
-        next:()=>{
+        next: () => {
           this.router.navigateByUrl('/dashboard')
         }
       })
   }
+
+  showDeleteModal = signal(false);
+
+  openDeleteModal() {
+    console.log('openDeleteModal called');
+    this.showDeleteModal.set(true);
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal.set(false);
+  }
+
+
+  confirmDelete() {
+    const slug = this.editPostForm.get('slug')?.value;
+    if (!slug) {
+      alert('Invalid post slug.');
+      return;
+    }
   
+    this.blogPostService.deleteBlogPostBySlug(slug)
+      .subscribe({
+        next: () => {
+          this.showDeleteModal.set(false); // close modal
+          this.router.navigateByUrl('/dashboard'); // navigate after delete
+        },
+        error: (err) => {
+          console.error('Failed to delete post:', err);
+          alert('Could not delete post.');
+          this.showDeleteModal.set(false); // still close modal
+        }
+      });
+  }
+
 }
