@@ -1,6 +1,7 @@
-import { Component, ElementRef, HostListener, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavbarService } from '../../../services/navbar.service';
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-logged-in-functionality',
@@ -13,6 +14,8 @@ export class LoggedInFunctionalityComponent {
     public navbarService: NavbarService,
     private elementRef: ElementRef
   ) {}
+
+  user = input.required<User>();
 
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: MouseEvent) {
