@@ -29,7 +29,7 @@
                 
             </li>
             <li class="px-4 py-2 hover:bg-neutral-200 hover:rounded">
-                <a href="" (click)="navbarService.toggleNavbarMenu()" class="flex">
+                <a [routerLink]="['/logout']"  (click)="navbarService.toggleNavbarMenu()" class="flex">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">

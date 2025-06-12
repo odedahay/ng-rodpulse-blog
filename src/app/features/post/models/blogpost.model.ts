@@ -6,4 +6,5 @@ export interface BlogPost{
     content: string;
     coverImageUrl: string;
     publishedOn: Timestamp;
+    userId: string;
 }
