@@ -15,7 +15,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 export class DashboardComponent {
   blogPostService = inject(BlogpostService)
 
-  blogPosts = toSignal(this.blogPostService.getBlogPosts());
+  blogPosts = toSignal(this.blogPostService.getBlogPostsByUser());
 
   sortedBlogPosts = computed(()=>{
     const posts = this.blogPosts();
