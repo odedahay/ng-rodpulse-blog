@@ -1,4 +1,6 @@
-export class BlogpostHelper {
+import { Timestamp } from "@angular/fire/firestore";
+
+export class BlogPostHelper {
     static createSlug(title: string): string {
         // remove all spaces and replace with a dash
         // add a random three digit number to the end of the slug
@@ -8,4 +10,8 @@ export class BlogpostHelper {
         const randomThreeDigitNumber = Math.floor(Math.random() * 1000);
         return `${slug}-${randomThreeDigitNumber}`;
     }
+
+    static converTimestampToDate(timestamp: Timestamp){
+        return timestamp.toDate();
+      }
 }

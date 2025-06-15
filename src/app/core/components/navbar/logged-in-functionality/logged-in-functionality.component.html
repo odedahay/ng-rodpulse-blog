@@ -1,7 +1,10 @@
 <div class="ms-4 flex items-center">
-    <div class="ms-auto flex items-center">
+    <div class="ms-auto flex items-center gap-3">
         <a [routerLink]="['/create-post']" class="bg-pink-500 text-white px-4 py-2 rounded">
             Create Post
+        </a>
+        <a (click)="createBatch()" class="border border-solid border-pink-500 text-pink-500 px-4 py-2 rounded">
+            Create Batch
         </a>
     </div>
     <div class="ms-3 relative">

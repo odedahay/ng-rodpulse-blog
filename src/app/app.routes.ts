@@ -6,12 +6,18 @@ import { NotFoundComponent } from './features/post/pages/not-found/not-found.com
 import { RegisterComponent } from './features/user/pages/register/register.component';
 import { LoginComponent } from './features/user/pages/login/login.component';
 import { LogoutComponent } from './features/user/pages/logout/logout.component';
+import { HomeComponent } from './features/home/pages/home/home.component';
+import { ViewPostComponent } from './features/post/pages/view-post/view-post.component';
 
 export const routes: Routes = [
     {
         path: '',
-        component: DashboardComponent,
+        component: HomeComponent,
         pathMatch: 'full'
+    },
+    {
+        path: 'blog/:slug',
+        component: ViewPostComponent,
     },
     {
         path: 'create-post',

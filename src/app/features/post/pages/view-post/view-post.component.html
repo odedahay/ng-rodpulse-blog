@@ -1,0 +1,18 @@
+@if(blogPost$ | async;as blogPost){
+    @if(blogPost){
+        <div class="max-w-7xl mx-auto p-4">
+            <h1 class="text-3xl mt-8 font-extrabold">{{blogPost.title}}</h1>
+            <img [src]="blogPost.coverImageUrl" class="mt-8 w-full max-h-[650px] object-cover" />
+            <p>
+                <span>Published: {{converTimestampToDate(blogPost.publishedOn) | date: "dd-MM-yyyy"}}</span>
+            </p>
+            <div class="mt-4 prose prose-neutral max-w-none prose-headings:font-bold prose-p:text-neutral-700 prose-a:text-pink-500">
+                <markdown [data]="blogPost.content"></markdown>
+            </div>
+        </div>
+    }@else{
+
+    }
+}@else {
+    <p>Loading...</p>
+}

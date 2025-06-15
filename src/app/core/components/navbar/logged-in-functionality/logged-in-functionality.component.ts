@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, inject, input } from '@angular/cor
 import { RouterLink } from '@angular/router';
 import { NavbarService } from '../../../services/navbar.service';
 import { User } from '../../../models/user.model';
+import { BlogpostService } from '../../../../features/post/services/blogpost.service';
 
 @Component({
   selector: 'app-logged-in-functionality',
@@ -16,6 +17,7 @@ export class LoggedInFunctionalityComponent {
   ) {}
 
   user = input.required<User>();
+  blogPostService = inject(BlogpostService);
 
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: MouseEvent) {
@@ -23,5 +25,13 @@ export class LoggedInFunctionalityComponent {
     if (!clickedInside && this.navbarService.isMenuVisible()) {
       this.navbarService.closeUserMenu();
     }
+  }
+
+  createBatch(){
+    this.blogPostService.batchUpload().subscribe({
+      next: ()=>{
+        alert('Batch finished successfully');
+      }
+    })
   }
 }
