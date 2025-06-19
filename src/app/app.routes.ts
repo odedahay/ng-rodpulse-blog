@@ -9,6 +9,8 @@ import { LogoutComponent } from './features/user/pages/logout/logout.component';
 import { HomeComponent } from './features/home/pages/home/home.component';
 import { ViewPostComponent } from './features/post/pages/view-post/view-post.component';
 
+import { AuthGuard } from './core/gurds/auth.guard';
+
 export const routes: Routes = [
     {
         path: '',
@@ -25,11 +27,13 @@ export const routes: Routes = [
     },
     {
         path: 'edit-post/:slug',
-        component: EditPostComponent
+        component: EditPostComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'register',
