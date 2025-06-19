@@ -5,6 +5,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ImageService } from '../../../../shared/services/image.service';
 import { getDownloadURL } from '@angular/fire/storage';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-post',
@@ -18,6 +19,7 @@ export class CreatePostComponent {
   blogPostService = inject(BlogpostService);
   imageService = inject(ImageService);
   router = inject(Router);
+  toastr = inject(ToastrService);
 
   createPostForm = new FormGroup({
     title: new FormControl<string>('',
@@ -56,9 +58,12 @@ export class CreatePostComponent {
       this.createPostForm.getRawValue().content,
       this.createPostForm.getRawValue().coverImageUrl
     );
-    alert('Successfully saved!')
     this.createPostForm.reset();
-    this.router.navigateByUrl('/dashboard')
+    this.router.navigateByUrl('/dashboard').then(
+      ()=>{
+        this.toastr.success('Successfully saved!');
+      }
+    )
   }
 
   onContentChange(){

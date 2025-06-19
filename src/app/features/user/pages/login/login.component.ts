@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../../core/services/user.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ export class LoginComponent {
 
   userService = inject(UserService);
   router = inject(Router);
+  toastr = inject(ToastrService);
 
   loginForm = new FormGroup({
     email: new FormControl<string>('', {
@@ -47,7 +49,11 @@ export class LoginComponent {
           //1. store the currently loggedin User
           this.userService.currentUser.set(user);
           //2. Redirect the user to home page
-          this.router.navigateByUrl('/');
+          // this.router.navigateByUrl('/');
+          this.router.navigate(['/dashboard']).then(() => {
+            this.toastr.success('Registration successful! Welcome to the dashboard.');
+          });
+          
 
         },error: (error) =>{
           console.error(error.message)

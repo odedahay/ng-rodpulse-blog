@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -9,6 +9,9 @@ import { getStorage, provideStorage } from '@angular/fire/storage'
 import { environment } from '../environments/environment';
 import { provideHttpClient } from '@angular/common/http';
 import { provideMarkdown } from 'ngx-markdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule, provideToastr } from 'ngx-toastr';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +22,13 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()), 
     provideStorage(() => getStorage()),
-    provideMarkdown()
+    provideMarkdown(),
+    importProvidersFrom(BrowserAnimationsModule),
+    importProvidersFrom(ToastrModule.forRoot()),
+    provideToastr({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }), 
   ]
 };
