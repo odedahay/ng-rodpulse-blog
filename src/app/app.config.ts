@@ -9,8 +9,8 @@ import { getStorage, provideStorage } from '@angular/fire/storage'
 import { environment } from '../environments/environment';
 import { provideHttpClient } from '@angular/common/http';
 import { provideMarkdown } from 'ngx-markdown';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule, provideToastr } from 'ngx-toastr';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 
 export const appConfig: ApplicationConfig = {
@@ -23,8 +23,9 @@ export const appConfig: ApplicationConfig = {
     provideFirestore(() => getFirestore()), 
     provideStorage(() => getStorage()),
     provideMarkdown(),
-    importProvidersFrom(BrowserAnimationsModule),
-    importProvidersFrom(ToastrModule.forRoot()),
+    provideAnimations(), // required animations providers
+    provideToastr(), // Toastr providers
+
     provideToastr({
       timeOut: 10000,
       positionClass: 'toast-bottom-right',

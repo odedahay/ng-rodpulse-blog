@@ -83,7 +83,8 @@ export class CreatePostComponent {
           this.createPostForm.patchValue({
             coverImageUrl:downloadUrl
           })
-          alert('Image uploaded successfully!')
+          //alert('Image uploaded successfully!')
+          this.toastr.success('Image uploaded successfully!');
         });
         // this.imageService.getDownloadUrl(snapshot).then((downloadUrl) => {
         //   this.createPostForm.patchValue({

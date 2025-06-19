@@ -5,6 +5,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ImageService } from '../../../../shared/services/image.service';
 import { getDownloadURL } from '@angular/fire/storage';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-post',
@@ -18,6 +19,7 @@ export class EditPostComponent implements OnInit {
   imageService = inject(ImageService);
   blogPostService = inject(BlogpostService);
   router = inject(Router);
+  toastr = inject(ToastrService);
 
   ngOnInit(): void {
     this.blogPostService.getBlogPostBySlug(this.slug() ?? '')
@@ -152,7 +154,9 @@ export class EditPostComponent implements OnInit {
       .subscribe({
         next: () => {
           this.showDeleteModal.set(false); // close modal
-          this.router.navigateByUrl('/dashboard'); // navigate after delete
+          this.router.navigateByUrl('/dashboard').then(()=>{
+            this.toastr.warning('Previous post is deleted!');
+          }); // navigate after delete
         },
         error: (err) => {
           console.error('Failed to delete post:', err);
