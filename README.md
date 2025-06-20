@@ -1,10 +1,11 @@
-# ng-rodpulse-blog
+# Multi-Blog Website
 
 A modern blog platform built with Angular, designed for creating, editing, and viewing blog posts. The project demonstrates best practices in Angular development, modular architecture, and user authentication.
 
 ## Tech Stack
 
 - **Frontend Framework:** Angular
+- **Banckend:** Firebase / Firestore
 - **Language:** TypeScript
 - **Styling:** CSS, PostCSS
 - **Package Management:** npm
